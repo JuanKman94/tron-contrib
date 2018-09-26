@@ -1,2 +1,7 @@
-# tron-contrib
-Tron Legacy colorscheme for common editors and terminal emulators
+# Tron Legacy Contrib Configurations
+
+![logo.png](logo.png "Tron: Legacy screenshot")
+
+Heavily inspired by the marvelous
+[gotham-contrib](https://github.com/whatyouhide/gotham-contrib) repository;
+I'll eventually make vim colorscheme,
