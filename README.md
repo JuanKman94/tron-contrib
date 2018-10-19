@@ -8,7 +8,7 @@ I'll eventually make vim colorscheme,
 
 ### iTerm 2
 
-[Download][zipped] the repository and unzip it.
+Download or clone the repository and unzip it (if downloaded).
 
 Now go into `Preferences > Profiles > Colors > Color presets` and select `Import`
 and browse to the `iterm2/tron.itermcolors` file. Now set the colorscheme to
