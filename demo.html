@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo | Tron Contrib</title>
+  <style>
+:root
+{
+  --tron-black:   #0c141f;
+  --tron-red:     #df740c;
+  --tron-orange:  #f58c4b;
+  --tron-yellow:  #f8e420;
+  --tron-magenta: #cb15c9;
+  --tron-blue:    #6f15cb;
+  --tron-cyan:    #6fc3df;
+  --tron-green:   #00ff00;
+  --tron-white:   #e6ffff;
+}
+
+body
+{
+  font: normal 18px/22px Terminus, "Fira Mono", monospace;
+  color: var(--tron-cyan, #ddd);
+  background-color: var(--tron-black, #222);
+  max-width: 90%;
+  margin: 1em auto;
+}
+
+a,
+a:visited
+{
+  color: var(--tron-yellow, yellow);
+  text-decoration: none;
+}
+a:hover
+{
+  text-decoration: underline;
+}
+
+ul
+{
+  padding-left: 1em;
+}
+
+hr
+{
+  color: var(--tron-yellow, yellow);
+}
+
+header
+{
+  color: var(--tron-cyan, #e6ffff);
+  background: center / contain no-repeat url(banner.png);
+  height: 10em;
+  text-align: center;
+  position: relative;
+}
+
+/**
+ * Text effect totally copied from Mandy Michael.
+ *
+ * https://codepen.io/mandymichael
+ */
+header h1
+{
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  margin:  0;
+  height:      2.15rem;
+  font-size:   2.15rem;
+  line-height: 2.15rem;
+
+  text-transform: uppercase;
+  text-shadow:
+    0px 1px 1px var(--tron-black),
+    2px 1px 1px var(--tron-black),
+    1px 2px 1px var(--tron-black),
+    3px 2px 1px var(--tron-black),
+    2px 3px 1px var(--tron-black),
+    4px 3px 0px var(--tron-black),
+    3px 4px 0px var(--tron-black),
+    5px 4px 0px var(--tron-black),
+    4px 5px 0px var(--tron-black),
+    6px 5px 0px var(--tron-black)
+    /*
+    ,
+    5px 6px 0px var(--tron-black),
+    7px 6px 0px var(--tron-black)
+    ,
+     8px  7px 0px var(--tron-blue),
+     7px  8px 0px var(--tron-blue),
+     9px  8px 0px var(--tron-blue),
+     8px  9px 0px var(--tron-blue),
+    10px  9px 0px var(--tron-blue),
+     9px 10px 0px var(--tron-blue),
+    11px 10px 0px var(--tron-blue),
+    10px 11px 0px var(--tron-blue)
+    */
+    ;
+}
+
+header h1::after,
+header h1::before
+{
+  content: attr(data-heading);
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+}
+
+header h1::before
+{
+  color: var(--tron-cyan);
+  width: 100%;
+  z-index: 5;
+  font-weight: normal;
+}
+header h1::after
+{
+  width: 100%;
+  text-shadow:
+    -1px  -1px 1px var(--tron-white),
+     1px  -1px 1px var(--tron-white),
+    -1px   1px 1px var(--tron-white),
+     1px   1px 1px var(--tron-white)
+    ;
+}
+
+#swatches
+{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#swatches .swatch
+{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 20%;
+  min-width: 8em;
+  min-height: 6em;
+  margin: 0.5em;
+  text-align: center;
+  cursor: pointer;
+}
+
+#swatches .swatch.no-vim
+{
+  border: 2px solid red;
+}
+
+#swatches .swatch *
+{
+  background: hsla(0, 100%, 10%, 0.5);
+  color: aliceblue;
+}
+
+.text-left   { text-align: left; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+#palettes
+{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+#palettes .palette
+{
+  min-width: 40%;
+}
+
+#palettes .color-list li
+{
+  width: 8em;
+  margin: 0.25em 0;
+  padding: 0.25em 1em;
+}
+
+@media (max-width: 480px) {
+  #palettes
+  {
+    flex-direction: column;
+  }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 data-heading="Tron: Contrib">Tron: Contrib</h1>
+  </header>
+
+  <p>Vim uses an absolute color scheme, so we need to joggle a bit with the
+  values to properly set the values, see
+  <a href="https://jeffkreeftmeijer.com/vim-16-color/">
+  "Consistent terminal colors with 16-ANSI-color Vim themes"</a>.
+
+  <p>A list of the supported colors by <code>xterm(1)</code> can be seen
+  <a href="https://jonasjacek.github.io/colors/">here</a>, thanks to
+  <a href="https://github.com/jonasjacek">jonasjacek</a>.
+
+  <hr>
+
+  <aside class="text-right">
+    <button type="button" id="toggler">Toggle Vim colors</button>
+    <span id="vimToggled">off</span>
+  </aside>
+
+  <section id="swatches">
+  </section>
+
+  <article>
+    <p>The banner image was uploaded to the following websites to extract to
+    color palette programatically, from which several colors were used:
+
+    <ul id="palettes">
+      <li class="palette">
+        <a href="https://brandfolder.com/workbench/color-palette">
+          brandfolder.com
+        </a>:
+        <ul class="color-list">
+          <li style="background: #0d171e;">#0d171e</li>
+          <li style="background: #152730;">#152730</li>
+          <li style="background: #2d505f;">#2d505f</li>
+          <li style="background: #2f404c;">#2f404c</li>
+          <li style="color: #fff; background: #7f9ea8;">#7f9ea8</li>
+        </ul>
+      </li>
+
+      <li class="palette">
+        <a href="http://colormind.io/image/#">
+          colormind.io
+        </a>:
+        <ul class="color-list">
+          <li style="color: #000; background: #29404E;">#29404E</li>
+          <li style="color: #000; background: #52758C;">#52758C</li>
+          <li style="color: #000; background: #6DA0B4;">#6DA0B4</li>
+          <li style="color: #000; background: #739D9C;">#739D9C</li>
+          <li style="color: #000; background: #D9E3E6;">#D9E3E6</li>
+        </ul>
+      </li>
+    </ul>
+  </article>
+
+  <hr>
+
+  <footer class="text-center">
+    Heading text effect by
+    <a href="https://codepen.io/mandymichael">Mandy Michael</a>
+  </footer>
+
+  <script>
+const GOTHAM256 = {
+  base0:   "#0c1014",
+  base1:   "#11151c",
+  base2:   "#091f2e",
+  base3:   "#0a3749",
+  base4:   "#1e6479",
+  base5:   "#599cab",
+  base6:   "#99d1ce",
+  base7:   "#d3ebe9",
+  red:     "#c23127",
+  orange:  "#d26937",
+  yellow:  "#edb443",
+  magenta: "#888ca6",
+  violet:  "#4e5166",
+  blue:    "#195466",
+  cyan:    "#33859E",
+  green:   "#2aa889",
+};
+
+const COLORS = {
+  base0:   "#0c141f",
+  base1:   "#091f2e",
+  base2:   "#152730",
+  base3:   "#2f404c",
+  base4:   "#52758C",
+  base5:   "#6DA0B4",
+  base6:   "#7f9ea8",
+  base7:   "#D9E3E6",
+  red:     "#df740c",
+  orange:  "#f58c4b",
+  yellow:  "#f8e420",
+  magenta: "#af0087",
+  violet:  "#ff00ff",
+  blue:    "#6f15cb",
+  cyan:    "#6fc3df",
+  green:   "#00ff00",
+};
+const VIM_COLORS = {
+  base0:   "#080808",
+  base1:   "#262626",
+  base2:   "#3a3a3a",
+  base3:   "#4e4e4e",
+  base4:   "#5f87ff",
+  base5:   "#5fafff",
+  base6:   "#5fafd7",
+  base7:   "#e4e4e4",
+  red:     "#ff8700",
+  orange:  "#ff875f",
+  yellow:  "#ffaf00",
+  magenta: "#870087",
+  violet:  "#ff00ff",
+  blue:    "#005fff",
+  cyan:    "#87afaf",
+  green:   "#00d700",
+};
+
+let swatches = null;
+
+window.COLORS = COLORS;
+window.swatches = swatches;
+
+function swatch(name, color) {
+  const div = document.createElement("div");
+  const code = document.createElement("code");
+
+  div.classList.add("swatch");
+  div.style.backgroundColor = color;
+  div.innerHTML = `<div>${name}</div><div><code>${color}</code></div>`;
+
+  if (VIM_COLORS[name]) {
+    let vimDiv = document.createElement("div");
+    let vimCode = document.createElement("code");
+
+    vimDiv.textContent = "vim: ";
+    vimCode.textContent = VIM_COLORS[name];
+    vimCode.style.color = VIM_COLORS[name];
+    vimDiv.style.backgroundColor = VIM_COLORS[name];
+    vimDiv.appendChild(vimCode);
+
+    div.appendChild(vimDiv);
+  } else {
+    div.innerHTML += "<div>no vim</div>";
+  }
+
+  return div;
+}
+
+function toggleVim(clickEv) {
+  let swatch = clickEv.target;
+
+  if (swatch.dataset.vim === "true") {
+    // set theme color
+    swatch.style.backgroundColor = COLORS[swatch.dataset.color];
+    swatch.dataset["vim"] = "false";
+  } else {
+    // set vim color
+    if (VIM_COLORS[swatch.dataset.color]) {
+      swatch.style.backgroundColor = VIM_COLORS[swatch.dataset.color];
+      swatch.dataset["vim"] = "true";
+    //} else {
+      //swatch.classList.add("no-vim");
+    }
+  }
+}
+
+window.addEventListener("DOMContentLoaded", (ev) => {
+  swatches = document.querySelector("#swatches");
+  let s = null;
+  let vimToggled = false;
+
+  for (let k in COLORS) {
+    s = swatch(k, COLORS[k]);
+
+    s.addEventListener("click", toggleVim);
+    s.dataset["color"] = k;
+
+    swatches.appendChild(s);
+  }
+
+  document.querySelector("#toggler").addEventListener("click", (ev) => {
+    let colors = (vimToggled)
+      ? COLORS
+      : VIM_COLORS;
+
+    document.querySelectorAll(".swatch").forEach((el) => {
+      if (colors[el.dataset.color]) {
+        el.style.backgroundColor = colors[el.dataset.color];
+      }
+      el.dataset["vim"] = `${!vimToggled}`;
+    });
+
+    vimToggled = !vimToggled;
+    document.querySelector("#vimToggled").textContent = vimToggled
+      ? "on"
+      : "off";
+  });
+});
+  </script>
+</body>
+</html>
